@@ -51,17 +51,17 @@ services:
     ports:
       - "${DEV_SERVER_PORT:-3000}:3000"
     working_dir: /app
-    environment:
-      VUE_APP_API_URL: http://localhost:2080/api/property
     networks:
       - immo.net
+    depends_on:
+      - immo.api
 
   immo.admin:
     build:
-      context: ./front_client
+      context: ./front_admin
       dockerfile: Dockerfile
     volumes:
-      - ./front_client:/app
+      - ./front_admin:/app
       - /app/node_modules
     ports:
       - "${DEV_SERVER_PORT:-3030}:3000"
@@ -70,3 +70,5 @@ services:
       VUE_APP_API_URL: http://localhost:2080/api/property
     networks:
       - immo.net
+    depends_on:
+      - immo.api
